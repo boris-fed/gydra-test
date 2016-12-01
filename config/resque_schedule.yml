@@ -1,0 +1,4 @@
+queue_documents_for_indexing:
+  cron: "/5 * * * * *"
+  class: "TestJob"
+  queue: default
