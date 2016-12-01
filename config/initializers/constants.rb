@@ -5,6 +5,5 @@ class CommonConst
   LOAD_RATES_CURRENCY_CATEGORY = 'CUTransferFrom10To100'
   LOAD_RATES_INTERVAL = 10.minute
   
-  CACHE_STORE_DATA = true
   CACHE_LIFE_TIME = 5.minute
 end  

@@ -37,6 +37,8 @@ Rails.application.configure do
   config.assets.raise_runtime_errors = true
   
   config.x.use_memcache = true
+  
+  config.x.send_notifies = true
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true

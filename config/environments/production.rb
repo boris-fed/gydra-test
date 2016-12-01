@@ -79,4 +79,6 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
   
   config.x.use_memcache = false
+
+  config.x.send_notifies = ENV["SEND_NOTIFIES"]
 end

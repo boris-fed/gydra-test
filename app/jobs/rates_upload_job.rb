@@ -49,14 +49,15 @@ class RatesUploadJob < ActiveJob::Base
           end
         end
       end  
-      if CommonConst::CACHE_STORE_DATA
+      if Rails.configuration.x.use_memcache
         Rails.cache.write(:rates_cache_data,cache_data,expires_in: CommonConst::CACHE_LIFE_TIME)
       end  
       logger.info "#{log_class_name}: currency rates loaded - #{currency_rate_count}"
-      logger.info "#{log_class_name}: sending notifications"
-      #count=send_notify(cache_data)
-      logger.info "#{log_class_name}: notifications sent - #{count}"
-      
+      if Rails.configuration.x.send_notifies
+        logger.info "#{log_class_name}: sending notifications"
+        count=send_notify(cache_data)
+        logger.info "#{log_class_name}: notifications sent - #{count}"
+      end
     rescue => e
       logger.error(e.to_s.force_encoding(encoding))
     ensure
