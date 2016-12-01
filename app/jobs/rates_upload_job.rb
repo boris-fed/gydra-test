@@ -71,7 +71,7 @@ def send_notify(rates)
   count=0
   rates.each do |rate|
     notifies=Notify.where("currency_code=? AND operation=? AND method=? AND value<=?", rate.from_currency, :buy, '>', rate.buy)
-    text="%s покупка за %s руб." % [rate.currency_name,(sprintf "%.2f", rate.sell)]
+    text="%s покупка за %s руб." % [rate.currency_name,(sprintf "%.2f", rate.buy)]
     notifies.each do |notify|
       subject="Нотификация: покупка %s дороже %s руб." % [rate.currency_name,(sprintf "%.2f", notify.value)]
       send_mail(notify.email, subject, text)
@@ -80,7 +80,7 @@ def send_notify(rates)
     end
 
     notifies=Notify.where("currency_code=? AND operation=? AND method=? AND value>=?", rate.from_currency, :buy, '<', rate.buy)
-    text="%s покупка за %s руб." % [rate.currency_name,(sprintf "%.2f", rate.sell)]
+    text="%s покупка за %s руб." % [rate.currency_name,(sprintf "%.2f", rate.buy)]
     notifies.each do |notify|
       subject="Нотификация: покупка %s дешевле %s руб." % [rate.currency_name,(sprintf "%.2f", notify.value)]
       send_mail(notify.email, subject, text)
