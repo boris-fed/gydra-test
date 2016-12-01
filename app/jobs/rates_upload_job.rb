@@ -42,7 +42,7 @@ class RatesUploadJob < ActiveJob::Base
               currency_rate.last_update=last_update
               currency_rate.save
               currency_rate_count+=1
-              if CommonConst::CACHE_STORE_DATA
+              if Rails.configuration.x.use_memcache
                 currency_rate.calc_details
               end
               cache_data << currency_rate
