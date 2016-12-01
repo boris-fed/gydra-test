@@ -4,7 +4,7 @@ class MainController < ApplicationController
     @notify=Notify.new do |n|
       n.set_defaults
     end
-    TestJob.perform_later
+    TestJob.perform_now
   end
   
   def get_rates
@@ -16,20 +16,24 @@ class MainController < ApplicationController
   
   private
   def get_rates_data
+    puts 'get_rates_data'
     @rates=Rails.cache.fetch(:rates_cache_data, expires_in: CommonConst::CACHE_LIFE_TIME) do
       get_rates_from_db
     end
+    puts 'get_rates_data - end'
   end
   
   private
   def get_rates_from_db
+      puts 'get_rates_from_db'
       rates=CurrencyRate.joins("LEFT OUTER JOIN currency_codes ON currency_rates.from_currency=currency_codes.code")
       .select("currency_rates.*,currency_codes.name as from_currency_name")
       .order(["last_update","from_currency"]).last(2)
             
       rates.each do |rate|
         rate.calc_details()
-      end  
+      end 
+      puts 'get_rates_from_db - end'      
       return rates
   end
 end
