@@ -14,7 +14,7 @@ class MainController < ApplicationController
   end
   
   def load_rates
-    TestJob.perform_now
+    RatesUploadJob.perform_now
     redirect_to root_path
   end
   
