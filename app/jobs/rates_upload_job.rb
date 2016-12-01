@@ -74,7 +74,7 @@ def send_notify(rates)
     text="%s покупка за %s руб." % [rate.currency_name,(sprintf "%.2f", rate.sell)]
     notifies.each do |notify|
       subject="Нотификация: покупка %s дороже %s руб." % [rate.currency_name,(sprintf "%.2f", notify.value)]
-      UserMailer.currency_notify_email(notify.email, subject, text).deliver_later
+      send_mail(notify.email, subject, text)
       notify.destroy
       count+=1
     end
@@ -83,7 +83,7 @@ def send_notify(rates)
     text="%s покупка за %s руб." % [rate.currency_name,(sprintf "%.2f", rate.sell)]
     notifies.each do |notify|
       subject="Нотификация: покупка %s дешевле %s руб." % [rate.currency_name,(sprintf "%.2f", notify.value)]
-      UserMailer.currency_notify_email(notify.email, subject, text).deliver_later
+      send_mail(notify.email, subject, text)
       notify.destroy
       count+=1
     end
@@ -92,7 +92,7 @@ def send_notify(rates)
     text="%s продажа за %s руб." % [rate.currency_name,(sprintf "%.2f", rate.sell)]
     notifies.each do |notify|
       subject="Нотификация: продажа %s дороже %s руб." % [rate.currency_name,(sprintf "%.2f", notify.value)]
-      UserMailer.currency_notify_email(notify.email, subject, text).deliver_later
+      send_mail(notify.email, subject, text)
       notify.destroy
       count+=1
     end
@@ -101,11 +101,19 @@ def send_notify(rates)
     text="%s продажа за %s руб." % [rate.currency_name,(sprintf "%.2f", rate.sell)]
     notifies.each do |notify|
       subject="Нотификация: продажа %s дешевле %s руб." % [rate.currency_name,(sprintf "%.2f", notify.value)]
-      UserMailer.currency_notify_email(notify.email, subject, text).deliver_later
+      send_mail(notify.email, subject, text)
       notify.destroy
       count+=1
     end
   end
   
   return count
+end
+
+def send_mail(email, subject, text)
+  if Rails.configuration.x.use_queues
+    UserMailer.currency_notify_email(email, subject, text).deliver_later
+  else
+    UserMailer.currency_notify_email(email, subject, text).deliver_now
+  end  
 end
