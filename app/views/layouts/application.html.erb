@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>GydraTest</title>
+  <title>Currency</title>
+  <link href="/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/bootstrap/css/bootstrap-toggle.min.css" rel="stylesheet">
+  
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
@@ -10,5 +13,7 @@
 
 <%= yield %>
 
+  <script src="/bootstrap/js/bootstrap-toggle.min.js"></script>
+  <script src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -1,0 +1,111 @@
+<script>
+	var ratesRefreshTimerId;
+
+	function toggleAutoRefresh() {
+		btn=$('#auto-refresh-btn');
+		btnInner=$(btn.children()[0]);
+		if (btn.attr('aria-pressed')=='true'){
+			btn.removeClass('btn-success');
+			btnInner.removeClass('glyphicon-refresh-animate');
+			if (ratesRefreshTimerId){
+				clearInterval(ratesRefreshTimerId);
+			}
+		}else{
+			btn.addClass('btn-success');
+			btnInner.addClass('glyphicon-refresh-animate');
+			ratesRefreshPartial();
+			ratesRefreshTimerId=setInterval(ratesRefreshPartial, 15000);
+		}
+	}
+	
+	function formatDateTime(dateTime){
+		var d=dateTime.getDate();
+		var m=dateTime.getMonth();
+		var y=dateTime.getFullYear();
+		var h=dateTime.getHours();
+		var mi=dateTime.getMinutes();
+		var s=dateTime.getSeconds();
+				
+		return appendZero(d)+'.'+appendZero(m)+'.'+y+' '+appendZero(h)+':'+appendZero(mi)+':'+appendZero(s);
+	}
+	
+	function appendZero(value){
+		if (value<10){
+			value='0'+value;
+		}
+		return value;
+	}
+	
+	function ratesRefreshPartial() {
+		$.get('main/get_rates')
+			.done(function() {
+				$('#auto-refresh-time').html(formatDateTime(new Date()));
+			})
+			.fail(function() {
+				$('#auto-refresh-time').html("Ошибка обновления");
+			})
+	}
+	
+	function removeNotify(remove_notify_id, search_email) {
+		$.post('notify/remove', {remove_notify_id: remove_notify_id, search_email: search_email});
+	}
+</script>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<h1>Курсы валют</h1>
+			<div class="well well-large well-outer">
+				<div class="clearfix" style="margin-bottom:10px">
+					<div class="pull-right">
+						<span class="details grey" id="auto-refresh-time"></span>
+						<button type="button" class="btn btn-xs" data-toggle="button" onclick="toggleAutoRefresh()" id="auto-refresh-btn" aria-pressed="false">
+							<span class="glyphicon glyphicon-refresh" />
+						</button>
+						<div class="pull-right" style="margin-left:10px">
+							<span class="badge" data-toggle="popover" data-content="Обновление данных о курсах валют каждые 15 секунд">i</span>
+						</div>
+					</div>
+				</div>
+				<div class="well well-inner" id="rates" style="padding-bottom: 0;">
+					<%= render 'main/rates' %>
+				</div>
+				<div class="clearfix" style="margin-bottom:10px">
+					<div class="pull-right">
+						<%= link_to('история курсов валют -->', controller: 'rate', action: 'index') %>
+					</div>
+				</div>	
+			</div>
+		</div>	
+		
+		<div class="col-md-5">
+			<h3>Новое оповещение</h3>	
+			<div class="well well-large well-outer">
+				<div class="clearfix" style="margin-bottom:10px">
+					<div class="pull-right">
+						<span class="badge" data-toggle="popover" data-content="Можно создать создать одновременно не более 10 уведомлений">i</span>
+					</div>
+				</div>		
+				<div class="well well-inner" id="notify_create">
+					<%= render 'notify/create' %>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6 col-md-offset-1">
+			<h3>Проверить оповещения</h3>
+			<div class="well well-large well-outer">
+				<div class="well well-inner" id="notify_index">
+					<%= render 'notify/index' %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$(function() {
+	$("[data-toggle=popover]").popover({
+		container: 'body'
+	});
+});	
+</script>

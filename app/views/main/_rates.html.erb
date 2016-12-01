@@ -1,0 +1,40 @@
+<table class="table">
+	<thead>
+		<tr>
+			<th style="width:100px">&nbsp;</th>
+			<th style="width:100px" class="details grey">Покупка</th>
+			<th style="width:100px" class="details grey">Продажа</th>
+			<th style="width:100px">&nbsp;</th>
+		</tr>
+	</thead>	
+	<tbody>
+		<% @rates.each do |rate| %>
+			<% if rate %>
+			<tr>
+				<td class="rate-value">
+					<%= rate.currency_name %>     
+				</td>
+				<td class="rate-value">
+					<%= number_with_precision(rate.buy, precision: 2, separator: ',') %>
+				</td>
+				<td class="rate-value">
+					<%= number_with_precision(rate.sell, precision: 2, separator: ',') %>
+				</td>
+				<td class="details">
+					<div>
+						<span class="grey">Среднее: </span><%= number_with_precision(rate.average, precision: 2, separator: ',') %> руб.
+					</div>
+					<div>
+						<span class="grey">Спред: </span>
+						<%= number_with_precision(rate.spread, precision: 2, separator: ',') %> руб. (<%= number_to_percentage(rate.spread_percentage*100, precision: 2) %>)
+					</div>
+					<div>
+						<span class="grey">Прогноз: </span>
+						<%= number_with_precision(rate.forecast, precision: 2) %>
+					</div>
+				</td>
+			</tr>
+		<% end %>	
+	<% end %>
+	</tbody>
+</table>

@@ -1,0 +1,53 @@
+<%= form_for(@notify, :url => url_for(:controller => "notify", :action => "create"), :remote => true, 
+	:html => {:onsubmit => "$('#create_notify_submit').attr('disabled','true')"}) do |f| %>
+	<div class="row">
+		<div class="input-group">
+			<%= f.check_box(:currency_code, {"data-size":"small","data-toggle":"toggle","data-on":"USD","data-off":"EUR",
+				"data-onstyle":"default","data-offstyle":"default","data-width":"100"}, checked_value = "840", unchecked_value = "978") %>
+			<%= f.check_box(:operation, {"data-size":"small","data-toggle":"toggle","data-on":"покупка","data-off":"продажа",
+				"data-onstyle":"default","data-offstyle":"default","data-width":"100"}, checked_value = "buy", unchecked_value = "sell") %>
+			<%= f.check_box(:method, {"data-size":"small","data-toggle":"toggle","data-on":"больше","data-off":"меньше",
+				"data-onstyle":"default","data-offstyle":"default","data-width":"100"}, checked_value = ">", unchecked_value = "<") %>
+		</div>
+		<div class="col-md-6 input-group-padding input-group-margin">
+			<div class="input-group input-group-sm">
+				<%= f.number_field(:rub, in: 0..200, class: "form-control", size: 3, required: "true") %>
+				<span class="input-group-addon">руб.</span>
+			</div>
+		</div>
+		<div class="col-md-6 input-group-margin">	
+			<div class="input-group input-group-sm">
+				<%= f.number_field(:kop, in: 0..99, class: "form-control", size: 2, required: "true") %>
+				<span class="input-group-addon">коп.</span>
+			</div>
+		</div>
+		<div class="col-md-6 input-group-padding input-group-margin">
+			<div class="input-group input-group-sm">
+				<span class="input-group-addon">@</span>
+				<%= f.email_field(:email, class: "form-control", placeholder: "Email", required: "true") %>
+			</div>
+		</div>
+		<div class="col-md-6 input-group-margin">
+			<div class="input-group input-group-sm">
+				<%= submit_tag("Добавить оповещение", class: "btn btn-sm btn-success", id: "create_notify_submit") %>
+			</div>
+		</div>
+	</div>
+	
+	<% if @notify.errors.any? %>
+		<div class="alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			<ul>
+				<% @notify.errors.each do |field, msg| %>
+					<li><%= msg %></li>
+				<% end %>
+			</ul>
+        </div>
+    <% end %>
+	<% if @notify_create_success %>
+		<div class="alert alert-success">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			Оповещение добавлено
+		</div>
+	<% end %>	
+<% end %>

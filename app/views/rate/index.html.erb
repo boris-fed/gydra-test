@@ -1,0 +1,40 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<h1>Курсы валют</h1>
+			<%= link_to('<-- на главную', root_path) %>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>&nbsp;</th>
+						<th class="details grey">USD покупка</th>
+						<th class="details grey">USD продажа</th>
+						<th class="details grey">EUR покупка</th>
+						<th class="details grey">EUR продажа</th>
+					</tr>
+				</thead>	
+				<tbody>
+					<% @rates.each do |rate| %>
+						<tr>
+							<td>
+								<%= rate.last_update.strftime('%d.%m.%Y %H:%M') %>
+							</td>
+							<td>
+								<%= number_with_precision(rate.usd_buy, precision: 2, separator: ',') %>
+							</td>
+							<td>
+								<%= number_with_precision(rate.usd_sell, precision: 2, separator: ',') %>
+							</td>
+							<td>
+								<%= number_with_precision(rate.eur_buy, precision: 2, separator: ',') %>
+							</td>
+							<td>
+								<%= number_with_precision(rate.eur_sell, precision: 2, separator: ',') %>
+							</td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>	
+</div>

@@ -1,0 +1,46 @@
+<%= form_tag(url_for(:controller => "notify", :action => "index"), :remote => true,
+	:html => {:onsubmit => "$('#search_notify_submit').attr('disabled','true')"}) do |f| %>
+	<div class="row">
+		<div class="col-md-6 input-group-padding input-group-margin">
+			<div class="input-group input-group-sm">
+				<span class="input-group-addon">@</span>
+				<%= email_field_tag(:search_email, nil, class: "form-control", placeholder: "Email", required: "true") %>
+			</div>
+		</div>
+		<div class="col-md-6 input-group-margin">
+			<div class="input-group input-group-sm">
+				<%= submit_tag("Найти оповещения", class: "btn btn-sm btn-success", id: "search_notify_submit") %>
+			</div>
+		</div>
+	</div>
+	
+	<% if @notifies %>
+	<table class="table">
+		<thead>
+			<tr>
+				<th class="details grey">
+				<% if @notifies[0] %>
+					<%= @notifies[0].email %>
+				<% else %>
+					Нет оповещений
+				<% end %>	
+				</th>
+				<th style="width:100px">&nbsp;</th>
+			</tr>
+		</thead>	
+		<tbody>
+			<% @notifies.each do |notify| %>
+				<tr>
+					<td>
+						<%= "%s: %s %s %s руб." % [notify.operation.gsub('sell','продажа').gsub('buy','покупка'), 
+							notify.currency_name, notify.method.gsub('<','дешевле').gsub('>','дороже'), (sprintf "%.2f", notify.value)] %>
+					</td>
+					<td>
+						<button class="btn btn-sm" type="button" onclick="removeNotify('<%= notify.id %>','<%= notify.email %>')">Удалить</button>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+	<% end %>
+<% end %>
