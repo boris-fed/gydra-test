@@ -50,7 +50,11 @@
 		$.post('notify/remove', {remove_notify_id: remove_notify_id, search_email: search_email});
 	}
 </script>
-
+<div class="clearfix" style="margin:10px">
+	<div class="pull-right">
+		<%= link_to 'Demo: загрузка курсов валют', {controller: 'main', action: 'load_rates'}, class: "btn btn-danger" %>
+	</div>
+</div>	
 <div class="container">
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
