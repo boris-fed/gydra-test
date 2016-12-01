@@ -16,9 +16,14 @@ class MainController < ApplicationController
   
   private
   def get_rates_data
-    puts 'get_rates_data'
-    @rates=Rails.cache.fetch(:rates_cache_data, expires_in: CommonConst::CACHE_LIFE_TIME) do
-      get_rates_from_db
+    if Rails.configuration.x.use_memcache
+      puts 'get_rates_memcache'
+      @rates=Rails.cache.fetch(:rates_cache_data, expires_in: CommonConst::CACHE_LIFE_TIME) do
+        get_rates_from_db
+      end
+    else
+      puts 'get_rates_data'
+      @rates=get_rates_from_db
     end
     puts 'get_rates_data - end'
   end
