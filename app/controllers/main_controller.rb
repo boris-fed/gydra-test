@@ -4,6 +4,7 @@ class MainController < ApplicationController
     @notify=Notify.new do |n|
       n.set_defaults
     end
+    TestJob.perform_later
   end
   
   def get_rates
