@@ -14,7 +14,7 @@ class MainController < ApplicationController
   end
   
   def load_rates
-    #RatesUploadJob.perform_now
+    RatesUploadJob.perform_now
     respond_to do |format|
       get_rates_data
       format.js
