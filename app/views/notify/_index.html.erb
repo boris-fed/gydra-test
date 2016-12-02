@@ -1,5 +1,5 @@
 <%= form_tag(url_for(:controller => "notify", :action => "index"), :remote => true,
-	:html => {:onsubmit => "$('#search_notify_submit').attr('disabled','true')"}) do |f| %>
+	:onsubmit => "$('#search_notify_submit').attr('disabled','true')") do |f| %>
 	<div class="row">
 		<div class="col-md-6 input-group-padding input-group-margin">
 			<div class="input-group input-group-sm">

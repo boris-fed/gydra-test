@@ -1,0 +1,15 @@
+<script>
+	function on_load_rates_submit(){
+		$('#load_rates_submit').attr('disabled','true').prepend('<span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"/>')
+	}
+</script>
+<div class="clearfix" style="margin:10px">
+	<div class="pull-right">
+		<%= form_tag(url_for(:controller => "main", :action => "load_rates"), :remote => true,
+			:onsubmit => "on_load_rates_submit()") do |f| %>	
+			<button type="submit" class="btn btn-sm btn-danger" id="load_rates_submit" aria-pressed="false">		
+				Demo: загрузка курсов валют
+			</button>	
+		<% end %>
+	</div>
+</div>	

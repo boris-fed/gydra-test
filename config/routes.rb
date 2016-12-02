@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get 'main/index'
 
   get 'main/get_rates', to: 'main#get_rates'
-  get 'main/load_rates', to: 'main#load_rates'
+  post 'main/load_rates', to: 'main#load_rates'
 
   post 'notify/index', to: 'notify#index'
   post 'notify/create', to: 'notify#create'

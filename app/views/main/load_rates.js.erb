@@ -1,0 +1,2 @@
+$('#rates').html("<%= escape_javascript(render partial: 'main/rates').html_safe %>");
+$('#load_rates_submit').removeAttr('disabled').find('span:first').remove();

@@ -15,7 +15,10 @@ class MainController < ApplicationController
   
   def load_rates
     RatesUploadJob.perform_now
-    redirect_to root_path
+    respond_to do |format|
+      get_rates_data
+      format.js
+    end
   end
   
   private
