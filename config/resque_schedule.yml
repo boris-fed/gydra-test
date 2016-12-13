@@ -1,0 +1,4 @@
+rates_upload_task:
+  cron: "*/1 * * * *"
+  class: "RatesUploadResqueTask"
+  queue: "simple"

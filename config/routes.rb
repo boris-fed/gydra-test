@@ -11,4 +11,7 @@ Rails.application.routes.draw do
   get 'rate/index', to: 'rate#index'
   
   root 'main#index'
+
+  require 'resque_web'
+  mount ResqueWeb::Engine, at: "/resque_web"
 end

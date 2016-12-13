@@ -7,6 +7,6 @@ module Clockwork
     puts "Running #{job}"
     "#{job}".constantize.perform_later
   end
-  every(CommonConst::LOAD_RATES_INTERVAL, 'RatesUploadJob')
+  every(15.seconds, 'RatesUploadJob')
 end
 
